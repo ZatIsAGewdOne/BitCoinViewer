@@ -60,7 +60,8 @@ class CoinDeskJsonData(private var callback: DataAvailable?, private var baseUrl
 
     private fun createCurrency(bpi: JSONObject): Currency {
         val code = bpi.getString("code")
-        val symbol = bpi.getString("symbol")
+        var symbol = bpi.getString("symbol")
+        symbol = updateSymbol(symbol)
         val rate = bpi.getString("rate")
         val description = bpi.getString("description")
         val rateFloat = bpi.getDouble("rate_float").toFloat()
@@ -69,5 +70,15 @@ class CoinDeskJsonData(private var callback: DataAvailable?, private var baseUrl
 
     private fun createUri(): String {
         return Uri.parse(baseUrl).buildUpon().build().toString()
+    }
+
+    private fun updateSymbol(symbol: String) : String {
+        var symbol = symbol
+        when(symbol) {
+            "&#36;" -> symbol = "\u0024"
+            "&pound;" -> symbol = "\u00a3"
+            "&euro;" -> symbol = "\u20ac"
+        }
+        return symbol
     }
 }

@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/curr_symbol"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:text="Symbol" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/curr_code"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_weight="1"
-        tools:text="Code" />
+        <TextView
+            android:id="@+id/curr_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="&#36;" />
 
-    <TextView
-        android:id="@+id/curr_description"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_weight="1"
-        tools:text="Description" />
+        <TextView
+            android:id="@+id/curr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/curr_symbol"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Code" />
 
-    <TextView
-        android:id="@+id/curr_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_weight="1"
-        tools:text="123.00" />
+        <TextView
+            android:id="@+id/curr_description"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="@+id/curr_code"
+            app:layout_constraintTop_toBottomOf="@+id/curr_code"
+            tools:text="Description" />
+
+        <TextView
+            android:id="@+id/curr_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="123.00" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
