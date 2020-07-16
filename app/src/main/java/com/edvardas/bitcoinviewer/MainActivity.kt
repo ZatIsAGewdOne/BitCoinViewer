@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 class MainActivity : AppCompatActivity(), DataAvailable {
     // api https://api.coindesk.com/v1/bpi/currentprice.json
@@ -14,7 +16,9 @@ class MainActivity : AppCompatActivity(), DataAvailable {
         private const val TAG = "MainActivity"
     }
 
+    private var startTime: Long = 0L
     private var currencyAdapter: CurrencyAdapter? = null
+    private val coinDeskData = CoinDeskJsonData(this, "https://api.coindesk.com/v1/bpi/currentprice.json")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +29,7 @@ class MainActivity : AppCompatActivity(), DataAvailable {
     override fun onResume() {
         super.onResume()
 
-        val coinDeskData = CoinDeskJsonData(this, "https://api.coindesk.com/v1/bpi/currentprice.json")
+//        val coinDeskData = CoinDeskJsonData(this, "https://api.coindesk.com/v1/bpi/currentprice.json")
         coinDeskData.executeOnSameThread()
     }
 
@@ -40,9 +44,25 @@ class MainActivity : AppCompatActivity(), DataAvailable {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_refresh -> {
+                refreshActivity()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun refreshActivity() {
+        val time = GregorianCalendar().timeInMillis / 1000
+
+        if (time - startTime > 60) {
+            coinDeskData.executeOnSameThread()
+            startTime = time
+            Toast.makeText(this, "Refreshed...", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, "You need to wait a minute before refreshing again", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     override fun dataAvailable(data: List<Currency>?, downloadStatus: DownloadStatus?) {
